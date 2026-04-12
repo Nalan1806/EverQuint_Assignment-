@@ -54,5 +54,80 @@ function handleCompute(){
     let heights=parseInput(input);
     let result = trapwater(heights);
 
-    document.getElementById("output").innerText = "Total Water: " + result.total; 
+    document.getElementById("output").innerText = "Total Water: " + result.total;
+    drawVisualization(heights,result.water); 
 }
+
+
+
+function drawVisualization(heights,water){
+    let svg=document.getElementById("visualization");
+
+    svg.innerHTML=""; //this is for clearing previous drawing
+    let barWidth=40;
+    let scale=20; //for scale factor so that height is visible 
+
+    //simple y-axis label
+    for(let i=0;i<=10;i++){
+        let y = 300 - i*scale;
+
+        let text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+        text.setAttribute("x", 0);
+        text.setAttribute("y", y);
+        text.setAttribute("font-size", "10");
+        text.setAttribute("fill", "gray");
+
+        text.textContent = i;
+        svg.appendChild(text);
+    }
+
+    
+   
+
+    for(let i=0;i<heights.length;i++){
+        let x=i*barWidth + 40; //we shift bars slightly right since we put axes
+
+        //yellow height block
+        let blockHeight=heights[i]*scale;
+        let yBlock=300-blockHeight; //y position (SVG origin is top-left,so we subtract)
+        let rectBlock=document.createElementNS(
+            "http://www.w3.org/2000/svg", "rect"
+        );
+
+        rectBlock.setAttribute("x",x);
+        rectBlock.setAttribute("y",yBlock);
+        rectBlock.setAttribute("width",barWidth-5);
+        rectBlock.setAttribute("height",blockHeight);
+
+        //for settign color
+        rectBlock.setAttribute("fill","gold")
+
+        
+        svg.appendChild(rectBlock) //add to SVG
+
+
+        //blue water
+
+        let waterHeight=water[i]*scale;
+        let yWater=yBlock-waterHeight;
+
+        let rectWater=document.createElementNS(
+            "http://www.w3.org/2000/svg", "rect"
+        ); //create the water rectangle
+
+        //set position and size
+        rectWater.setAttribute("x",x);
+        rectWater.setAttribute("y",yWater);
+        rectWater.setAttribute("width",barWidth-5);
+        rectWater.setAttribute("height",waterHeight);
+
+        rectWater.setAttribute("fill","skyblue");
+
+        //add to SVG
+        svg.appendChild(rectWater);
+         
+
+    }
+        
+
+    }
