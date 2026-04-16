@@ -31,7 +31,7 @@ def execute(question:str, plan:list):
 
                 #store internal reasoning steps (NOT for user directly)
                 "steps": [ f"converted start time to minutes: {start}",
-                          f"converted end time to minutes",
+                          f"converted end time to minutes: {end}",
                           f"Difference: {diff} minutes"]
 
             }
